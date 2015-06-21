@@ -29,7 +29,7 @@
     <script type = "text/javascript">
 		var myapp = angular.module("myApp",[]);
 		myapp.controller("myCtrl",function($scope,$http){
-			$scope.flag = true;
+			
 			$scope.currpage = 0;
 			$http.get("http://127.0.0.1:3000/fetch").success(function(content){
                 $scope.data = content;
@@ -58,9 +58,6 @@
 				    $scope.displaying(0);
 			     });
                 });
-            }
-            $scope.changeFlag = function(){
-                $scope.flag = false;
             }
 		});
 	</script>
@@ -109,9 +106,6 @@
             <div class="col-lg-12">
                 <h1 class="page-header">Flickr Puppies
                     <small>A feast for puppy lovers <span class="glyphicon glyphicon-heart" aria-hidden="true"></span></small>
-                    <button style="float:right" type="button" class="btn btn-default btn-lg" ng-click="changeFlag()">
-                        <span class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span> Sort by Ups
-                    </button>
                 </h1>
             </div>
         </div>
@@ -119,34 +113,18 @@
 
         <!-- Projects Row -->
         <div class="row">
-            <div ng-hide="flag" ng-repeat="x in newArray | orderBy :'-Upvote'">
+            <div ng-repeat="x in newArray">
                 <div class="col-md-6 portfolio-item">
                     <a href="#">
-                        <img class="img-responsive" src="https://farm{{x.Farm}}.staticflickr.com/{{x.Server}}/{{x.Id}}_{{x.Secret}}.jpg" alt="" width="700" height="400">
+                        <img class="img-responsive" src="https://farm{{x.Farm}}.staticflickr.com/{{x.Server}}/{{x.Id}}_{{x.Secret}}.jpg" alt="">
                     </a>
                     <h3>
                         <a href="#">{{x.Title}}</a>
                     </h3>
-                    <button type="button" class="btn btn-default btn-lg" ng-click="vote(x.Id,1)">
+                    <button type="button" class="btn btn-default btn-lg">
                         <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Ups {{x.Upvote}}
                     </button>
-                    <button type="button" class="btn btn-default btn-lg" ng-click="vote(x.Id,2)">
-                        <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Downs {{x.Downvote}}
-                    </button>
-                </div>
-            </div>
-            <div ng-show="flag" ng-repeat="x in newArray">
-                <div class="col-md-6 portfolio-item">
-                    <a href="#">
-                        <img class="img-responsive" src="https://farm{{x.Farm}}.staticflickr.com/{{x.Server}}/{{x.Id}}_{{x.Secret}}.jpg" alt="" width="700" height="400">
-                    </a>
-                    <h3>
-                        <a href="#">{{x.Title}}</a>
-                    </h3>
-                    <button type="button" class="btn btn-default btn-lg" ng-click="vote(x.Id,1)">
-                        <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Ups {{x.Upvote}}
-                    </button>
-                    <button type="button" class="btn btn-default btn-lg" ng-click="vote(x.Id,2)">
+                    <button type="button" class="btn btn-default btn-lg">
                         <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Downs {{x.Downvote}}
                     </button>
                 </div>

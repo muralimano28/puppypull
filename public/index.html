@@ -34,8 +34,9 @@ $(document).ready(function() {
 		myapp.controller("myCtrl",function($scope,$http){
 			
 			$scope.currpage = 0;
-			$http.get(" https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=3d2d585fda4651abf0ef33e60d4e9b10&tags=cute+puppy&per_page=100&page=5&format=json&nojsoncallback=1&auth_token=72157654704314156-c8853538ad614fe3&api_sig=e1699368529cb020e46920ea22c3aee4").success(function(content){
-				$scope.data = content.photos.photo;
+			$http.get("http://127.0.0.1:3000/fetch").success(function(content){
+                $scope.data = content;
+				//$scope.data = content.photos.photo; //This is for testing with flickr api
 				//$scope.newArray = $scope.data.slice(0,10);
 				$scope.displaying(0);
 			});
@@ -44,6 +45,24 @@ $(document).ready(function() {
 				var final = x+10;
 				$scope.newArray = $scope.data.slice(x,final);
 			}
+            $scope.vote = function(id,flag){
+                var uri = "";
+                if(flag==1)
+                {
+                    uri = "http://127.0.0.1:3000/upvote?id="+id;
+                }
+                else
+                {
+                    uri = "http://127.0.0.1:3000/downvote?id="+id;
+                }
+                $http.get(uri).success(function(){
+                    $http.get("http://127.0.0.1:3000/fetch").success(function(content){
+				    $scope.data = content.photos.photo;
+				    //$scope.newArray = $scope.data.slice(0,10);
+				    $scope.displaying(0);
+			     });
+                });
+            }
 		});
 	</script>
 <!-- ########################################################################################## End FancyBox ###########################################################################-->
@@ -95,11 +114,13 @@ $(document).ready(function() {
     <div class="gallery">
 		<ul>
   			<li ng-repeat="x in newArray">
-				<a class="fb_image" href="https://farm{{x.farm}}.staticflickr.com/{{x.server}}/{{x.id}}_{{x.secret}}.jpg" title="Cute Puppy"><img src="https://farm{{x.farm}}.staticflickr.com/{{x.server}}/{{x.id}}_{{x.secret}}.jpg" alt="" width="224" height="284"/></a>
-				<!--<div>
-					<div style="float:right" class="arrow-down"></div>
-					<div style="float:right" class="arrow-up"></div>
-				</div> -->
+				<a class="fb_image" href="https://farm{{x.Farm}}.staticflickr.com/{{x.Server}}/{{x.Id}}_{{x.Secret}}.jpg" title="Cute Puppy"><img src="https://farm{{x.Farm}}.staticflickr.com/{{x.Server}}/{{x.Id}}_{{x.Secret}}.jpg" alt="" width="224" height="284"/></a>
+				<div>
+                    <div><h6 style="float:left">Upvotes: {{x.Upvote}}</h6></div>
+                    <div><h6 style="float:left">Downvotes: {{x.Downvote}}</h6></div>
+					<div style="float:right" class="arrow-down" ng-click = "vote(x.Id,1)"></div>
+					<div style="float:right" class="arrow-up" ng-click = "vote(x.Id,0)"></div>
+				</div>
   			</li>
 		</ul>
       <br class="clear" />

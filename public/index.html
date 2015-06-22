@@ -29,18 +29,18 @@
     <script type = "text/javascript">
 		var myapp = angular.module("myApp",[]);
 		myapp.controller("myCtrl",function($scope,$http){
+            $scope.surpriseMe = true;
 			$scope.flag = true;
 			$scope.currpage = 0;
 			$http.get("/fetch").success(function(content){
                 $scope.data = content;
-                $scope.checkArray = {};
-                $scope.voteArray = {};
+                $scope.checkArrayU = {};
+                $scope.checkArrayD = {};
                 for(var i=0;i<($scope.data).length;i++)
                 {
-                    $scope.checkArray[$scope.data[i].id] = false;
-                    $scope.voteArray[$scope.data[i].id] = false;
+                    $scope.checkArrayU[$scope.data[i].id] = false;
+                    $scope.checkArrayD[$scope.data[i].id] = false;
                 }
-				//$scope.newArray = $scope.data.slice(0,10);
 				$scope.displaying(0);
 			});
 			$scope.displaying = function(x){
@@ -51,42 +51,19 @@
 			}
             $scope.vote = function(x,flag){
                 var uri = "";
-				/*if(pageno > 1)
-				{
-					index = (pageno-1)*10;
-				}*/
                 if(flag==1)
                 {
-                    $scope.checkArray[x.id]=true;
-                    if($scope.voteArray[x.id]==false)
-                    {
-					    x.Upvote += 1;
-                        $scope.voteArray[x.id]=true;
-                    }
-                    else
-                    {
-                        x.Downvote -= 1;
-                        $scope.voteArray[x.id]=false;
-                    }
+                    $scope.checkArrayU[x.Id]=true;
+                    x.Upvote += 1;
                     uri = "/upvote?id="+x.Id;
                 }
                 else
                 {
-                    $scope.checkArray[x.id]=false;
-                    if($scope.voteArray[x.id]==true)
-                    {
-                        x.Downvote += 1;
-                        
-                    }
+                    $scope.checkArrayD[x.Id]=true;
 					x.Downvote += 1;
                     uri = "/downvote?id="+x.Id;
                 }
                 $http.get(uri).success(function(){
-                   /* $http.get("/fetch").success(function(content){
-				    $scope.data = content;
-				    //$scope.newArray = $scope.data.slice(0,10);
-				    $scope.displaying(0);
-			     });*/
                 });
             }
             $scope.changeFlag = function(){
@@ -104,12 +81,14 @@
 						$scope.displaying(0);
 					});
 			};
+            $scope.changeSurprise = function(){
+                $scope.surpriseMe = false;
+            }
 		});
 	</script>
-
 </head>
 
-<body ng-app = "myApp" ng-controller = "myCtrl">
+<body ng-app = "myApp" ng-controller = "myCtrl" style="font-family:Comic Sans MS">
 
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -179,33 +158,35 @@
         <!-- Projects Row -->
         <div class="row">
             <div ng-hide="flag" ng-repeat="x in newArray | orderBy :'-Upvote'">
-                <div class="col-md-6 portfolio-item" style="border:1px solid black">
+                <div class="col-md-6 portfolio-item">
                     <a href="#">
                         <img class="img-responsive" style="max-height:700px;max-width=700px" src="https://farm{{x.Farm}}.staticflickr.com/{{x.Server}}/{{x.Id}}_{{x.Secret}}.jpg" alt="">
                     </a>
                     <h3>
                         <a href="#">{{x.Title}}</a>
                     </h3>
-                    <button type="button" class="btn btn-default btn-lg" ng-click="vote(x,1)" ng-disabled="checkArray[x.id]">
+                    <button type="button" class="btn btn-default btn-lg" ng-click="vote(x,1)" ng-disabled="checkArrayU[x.Id]">
                         <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Ups {{x.Upvote}}
                     </button>
-                    <button type="button" class="btn btn-default btn-lg" ng-click="vote(x,2)" ng-disabled="!checkArray[x.id]">
+                    <button type="button" class="btn btn-default btn-lg" ng-click="vote(x,2)" ng-disabled="checkArrayD[x.Id]">
                         <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Downs {{x.Downvote}}
                     </button>
+                    <!-- Place this tag where you want the share button to render. -->
+                    <div style="float:right" class="g-plus" data-action="share" data-annotation="bubble" data-href="https://puppypull.herokuapp.com"></div>
                 </div>
 			</div>
             <div ng-show="flag" ng-repeat="x in newArray">
-                <div class="col-md-6 portfolio-item" style="border:1px solid black">
+                <div class="col-md-6 portfolio-item" >
                     <a href="#">
                         <img class="img-responsive" style="max-height:700px;max-width=700px" src="https://farm{{x.Farm}}.staticflickr.com/{{x.Server}}/{{x.Id}}_{{x.Secret}}.jpg" alt="">
                     </a>
                     <h3>
                         <a href="#">{{x.Title}}</a>
                     </h3>
-                    <button type="button" class="btn btn-default btn-lg" ng-click="vote(x,1)" ng-disabled="checkArray[x.id]">
+                    <button type="button" class="btn btn-default btn-lg" ng-click="vote(x,1)" ng-disabled="checkArrayU[x.Id]">
                         <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Ups {{x.Upvote}}
                     </button>
-                    <button type="button" class="btn btn-default btn-lg" ng-click="vote(x,2)" ng-disabled="!checkArray[x.id]">
+                    <button type="button" class="btn btn-default btn-lg" ng-click="vote(x,2)" ng-disabled="checkArrayD[x.Id]">
                         <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Downs {{x.Downvote}}
                     </button>
                 </div>
@@ -248,6 +229,41 @@
 
         <hr>
 
+        <!-- Youtube video Surprise Me -->
+        
+        <div class="row">
+			<div class="col-lg-12">
+				<h3 ng-click="changeSurprise()"><font face="Comic Sans MS">Not satisfied with flickr puppies? Click me for Surprise</font></h3>
+			</div>
+        </div>
+        <div class="row" ng-hide = "surpriseMe">
+            <div class="col-md-6 portfolio-item">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/zgrrjh5_7IM" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="col-md-6 portfolio-item">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/LjjEw9adIUA" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="col-md-6 portfolio-item">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/_TyIA0rKTWo" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="col-md-6 portfolio-item">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/amtuB-2wGeQ" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="col-md-6 portfolio-item">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/CpbYBZKdi3s" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="col-md-6 portfolio-item">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/NGHk40IVRf0" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+        <div class="row">
+			<div class="col-lg-12">
+                <h3><font face="Comic Sans MS">Enjoyed? ;-)</font></h3>
+			</div>
+        </div>
+        
+        <!-- ./row -->
+        
         <!-- Footer -->
         <footer>
             <div class="row">

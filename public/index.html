@@ -89,6 +89,15 @@
 </head>
 
 <body ng-app = "myApp" ng-controller = "myCtrl" style="font-family:Comic Sans MS">
+    
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
 
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -223,6 +232,7 @@
                         <a href="#" ng-click = "displaying(currpage+1)">&raquo;</a>
                     </li>
                 </ul>
+                <div style="float:right;padding:12px 12px" class="fb-share-button" data-href="https://www.puppypull.herokuapp.com" data-layout="button_count"></div>
             </div>
         </div>
         <!-- /.row -->
@@ -256,7 +266,7 @@
                 <iframe width="560" height="315" src="https://www.youtube.com/embed/NGHk40IVRf0" frameborder="0" allowfullscreen></iframe>
             </div>
         </div>
-        <div class="row">
+        <div class="row" ng-hide = "surpriseMe">
 			<div class="col-lg-12">
                 <h3><font face="Comic Sans MS">Enjoyed? ;-)</font></h3>
 			</div>

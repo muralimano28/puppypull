@@ -41,14 +41,16 @@
 				var final = x+9;
 				$scope.newArray = $scope.data.slice(x,final);
 			}
-            $scope.vote = function(id,flag){
+            $scope.vote = function(id,flag,index){
                 var uri = "";
                 if(flag==1)
                 {
+					$scope.data[index].Upvote += 1;
                     uri = "/upvote?id="+id;
                 }
                 else
                 {
+					$scope.data[index].Downvote += 1;
                     uri = "/downvote?id="+id;
                 }
                 $http.get(uri).success(function(){
@@ -127,10 +129,10 @@
                     <h3>
                         <a href="#">{{x.Title}}</a>
                     </h3>
-                    <button type="button" class="btn btn-default btn-lg" ng-click="vote(x.Id,1)">
+                    <button type="button" class="btn btn-default btn-lg" ng-click="vote(x.Id,1,$index)">
                         <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Ups {{x.Upvote}}
                     </button>
-                    <button type="button" class="btn btn-default btn-lg" ng-click="vote(x.Id,2)">
+                    <button type="button" class="btn btn-default btn-lg" ng-click="vote(x.Id,2,$index)">
                         <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Downs {{x.Downvote}}
                     </button>
                 </div>
@@ -143,43 +145,14 @@
                     <h3>
                         <a href="#">{{x.Title}}</a>
                     </h3>
-                    <button type="button" class="btn btn-default btn-lg" ng-click="vote(x.Id,1)">
+                    <button type="button" class="btn btn-default btn-lg" ng-click="vote(x.Id,1,$index)">
                         <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Ups {{x.Upvote}}
                     </button>
-                    <button type="button" class="btn btn-default btn-lg" ng-click="vote(x.Id,2)">
+                    <button type="button" class="btn btn-default btn-lg" ng-click="vote(x.Id,2,$index)">
                         <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Downs {{x.Downvote}}
                     </button>
                 </div>
             </div>
-            <!-- <div class="col-md-6 portfolio-item">
-                <a href="#">
-                    <img class="img-responsive" src="http://placehold.it/700x400" alt="">
-                </a>
-                <h3>
-                    <a href="#">Project Two</a>
-                    <button type="button" class="btn btn-default btn-lg">
-                        <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Ups
-                    </button>
-                    <button type="button" class="btn btn-default btn-lg">
-                        <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Downs
-                    </button>
-                </h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
-            </div> -->
-            
-            <!-- newly added starting -->
-            
-            <!-- <div class="col-md-6 portfolio-item">
-                <a href="#">
-                    <img class="img-responsive" src="http://placehold.it/700x400" alt="">
-                </a>
-                <h3>
-                    <a href="#">Project Two</a>
-                </h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
-            </div> -->
-            
-            <!-- newly added ending -->
         </div>
         <!-- /.row -->
 

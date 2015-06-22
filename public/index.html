@@ -31,7 +31,7 @@
 		myapp.controller("myCtrl",function($scope,$http){
 			$scope.flag = true;
 			$scope.currpage = 0;
-			$http.get("http://127.0.0.1:3000/fetch").success(function(content){
+			$http.get("/fetch").success(function(content){
                 $scope.data = content;
 				//$scope.newArray = $scope.data.slice(0,10);
 				$scope.displaying(0);
@@ -45,14 +45,14 @@
                 var uri = "";
                 if(flag==1)
                 {
-                    uri = "http://127.0.0.1:3000/upvote?id="+id;
+                    uri = "/upvote?id="+id;
                 }
                 else
                 {
-                    uri = "http://127.0.0.1:3000/downvote?id="+id;
+                    uri = "/downvote?id="+id;
                 }
                 $http.get(uri).success(function(){
-                    $http.get("http://127.0.0.1:3000/fetch").success(function(content){
+                    $http.get("/fetch").success(function(content){
 				    $scope.data = content;
 				    //$scope.newArray = $scope.data.slice(0,10);
 				    $scope.displaying(0);
@@ -122,7 +122,7 @@
             <div ng-hide="flag" ng-repeat="x in newArray | orderBy :'-Upvote'">
                 <div class="col-md-6 portfolio-item">
                     <a href="#">
-                        <img class="img-responsive" src="https://farm{{x.Farm}}.staticflickr.com/{{x.Server}}/{{x.Id}}_{{x.Secret}}.jpg" alt="" width="700" height="400">
+                        <img class="img-responsive" style="position:relative;float:left;background-position:50% 50%;background-repeat:no-repeat;background-size:cover;"src="https://farm{{x.Farm}}.staticflickr.com/{{x.Server}}/{{x.Id}}_{{x.Secret}}.jpg" alt="" width="700" height="400">
                     </a>
                     <h3>
                         <a href="#">{{x.Title}}</a>

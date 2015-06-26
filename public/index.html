@@ -84,6 +84,10 @@
             $scope.changeSurprise = function(){
                 $scope.surpriseMe = false;
             }
+            $scope.qrcode = function(uri){
+                console.log(uri);
+                window.open("http://qrcode.kaywa.com/img.php?s=32&d="+uri,"_blank");
+            }
 		});
 	</script>
 </head>
@@ -168,7 +172,7 @@
         <div class="row">
             <div ng-hide="flag" ng-repeat="x in newArray | orderBy :'-Upvote'">
                 <div class="col-md-6 portfolio-item">
-                    <a href="#">
+                    <a href="#" ng-click="qrcode('https://farm'+x.Farm+'.staticflickr.com/'+x.Server+'/'+x.Id+'_'+x.Secret+'.jpg')">
                         <img class="img-responsive" style="max-height:700px;max-width=700px" src="https://farm{{x.Farm}}.staticflickr.com/{{x.Server}}/{{x.Id}}_{{x.Secret}}.jpg" alt="">
                     </a>
                     <h3>
@@ -186,7 +190,7 @@
 			</div>
             <div ng-show="flag" ng-repeat="x in newArray">
                 <div class="col-md-6 portfolio-item" >
-                    <a href="#">
+                    <a href="#" ng-click="qrcode('https://farm'+x.Farm+'.staticflickr.com/'+x.Server+'/'+x.Id+'_'+x.Secret+'.jpg')">
                         <img class="img-responsive" style="max-height:700px;max-width=700px" src="https://farm{{x.Farm}}.staticflickr.com/{{x.Server}}/{{x.Id}}_{{x.Secret}}.jpg" alt="">
                     </a>
                     <h3>

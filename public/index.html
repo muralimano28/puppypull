@@ -9,6 +9,14 @@
     <meta name="description" content="Puppy pull website gives feast for puppy lovers in one plcae with puppy images from flickr">
     <meta name="author" content="Muralimanohar">
 
+    <!-- Open graph markup -->
+    <meta property="og:url" content="http://www.puppypull.herokuapp.com" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Exclusive for Puppy lovers" />
+    <meta property="og:description" content="Experience the cuteness of puppies" />
+    <meta property="og:image" content="http://cutepuppyclub.com/wp-content/uploads/2015/05/648b42e4-ef9e-41e2-9844-f02c61cbe1cc.jpg" />
+    <!-- ./ End of markup -->
+    
     <title>Puppy Pull - A Feast for Puppy Lovers</title>
 
     <!-- Bootstrap Core CSS -->
@@ -25,7 +33,9 @@
     <![endif]-->
     
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    
 	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    
     <script type = "text/javascript">
 		var myapp = angular.module("myApp",[]);
 		myapp.controller("myCtrl",function($scope,$http){
@@ -90,18 +100,29 @@
             }
 		});
 	</script>
+    
 </head>
 
 <body ng-app = "myApp" ng-controller = "myCtrl" style="font-family:Comic Sans MS">
     
-    <div id="fb-root"></div>
-    <script>(function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
+    <!-- Facebook like button script code -->
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      : '107332812942128',
+                xfbml      : true,
+                version    : 'v2.3'
+            });
+        };
+
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
 
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -236,11 +257,16 @@
                         <a href="#" ng-click = "displaying(currpage+1)">&raquo;</a>
                     </li>
                 </ul>
-                <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://puppypull.herokuapp.com" data-text="Puppy pull" data-via="muralimano28" data-related="muralimano28" data-hashtags="puupylove" data-dnt="true">Tweet</a> 
-                <div style="float:right;padding:12px 12px" class="fb-share-button" data-href="https://www.puppypull.herokuapp.com" data-layout="button_count"></div>
             </div>
         </div>
         <!-- /.row -->
+        
+        <div class="row text-center">
+            <div class="col-lg-12">
+                <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.puppypull.herokuapp.com" data-text="Puppy pull" data-via="muralimano28" data-related="muralimano28" data-hashtags="puupylove" data-dnt="true">Tweet</a> 
+                <a class="fb-share-button" data-href="https://www.puppypull.herokuapp.com" data-layout="button_count"> </a>
+            </div>
+        </div>
 
         <hr>
 

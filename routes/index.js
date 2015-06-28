@@ -29,7 +29,8 @@ router.get('/fetch',function(req,res,next){
     }
     else
     {
-        uri = "https://goflickr.herokuapp.com/fetch?tag="+tags;
+        var output = uri.replace(" ","+");
+        uri = "https://goflickr.herokuapp.com/fetch?tag="+output;
         console.log(uri)
     }
 	request.get(uri,function(error,response,body){
